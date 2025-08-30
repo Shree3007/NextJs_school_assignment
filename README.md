@@ -1,0 +1,1 @@
+# NextJs_school_assignment
