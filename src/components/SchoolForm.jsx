@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const schema = yup.object().shape({
   name: yup.string().required("School name is required"),
@@ -34,6 +35,17 @@ export default function SchoolForm() {
     resolver: yupResolver(schema),
   });
   const [message, setMessage] = useState("");
+  const [imagePreview, setImagePreview] = useState(null); // State for image preview
+  const router = useRouter(); // Initialize useRouter
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImagePreview(null);
+    }
+  };
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -55,6 +67,8 @@ export default function SchoolForm() {
       if (response.ok) {
         setMessage("School added successfully!");
         reset();
+        setImagePreview(null); // Clear image preview on successful submission
+        router.push("/showSchools"); // Redirect to show schools page
       } else {
         setMessage(`Error: ${result.message}`);
       }
@@ -253,10 +267,16 @@ export default function SchoolForm() {
                         type="file"
                         className="sr-only"
                         {...register("image")}
+                        onChange={handleImageChange} // Add onChange handler
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>
+                  {imagePreview && ( // Conditionally render image preview
+                    <div className="mt-4">
+                      <img src={imagePreview} alt="Image Preview" className="max-h-32 mx-auto" />
+                    </div>
+                  )}
                   <p className="text-xs text-gray-500">PNG, JPG, WEBP up to 5MB</p>
                 </div>
               </div>
