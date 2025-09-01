@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Upload, School, CheckCircle, AlertCircle, Image as ImageIcon } from "lucide-react";
 
 const schema = yup.object().shape({
   name: yup.string().required("School name is required"),
@@ -31,15 +36,20 @@ const schema = yup.object().shape({
 });
 
 export default function SchoolForm() {
-  const {register, handleSubmit, formState: {errors}, reset} = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm({
     resolver: yupResolver(schema),
   });
-  const [message, setMessage] = useState("");
-  const [imagePreview, setImagePreview] = useState(null); // State for image preview
-  const router = useRouter(); // Initialize useRouter
+
+  const [imagePreview, setImagePreview] = useState(null);
+  const router = useRouter();
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file));
     } else {
@@ -63,245 +73,161 @@ export default function SchoolForm() {
         body: formData,
       });
 
-      const result = await response.json();
       if (response.ok) {
-        setMessage("School added successfully!");
         reset();
-        setImagePreview(null); // Clear image preview on successful submission
-        router.push("/showSchools"); // Redirect to show schools page
+        setImagePreview(null);
+        router.push("/showSchools"); // Redirect to schools page
       } else {
-        setMessage(`Error: ${result.message}`);
+        console.error("Error submitting form");
       }
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Add a New School
-        </h2>
-      </div>
+    <div className="min-h-screen p-4 md:p-8 animate-fade-in">
+      <div className="mx-auto max-w-2xl">
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                School Name
-              </label>
-              <div className="mt-1">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  {...register("name")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.name && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
-            </div>
+        {/* Form Card */}
+        <Card className="border rounded-2xl shadow-2xl shadow-gray-500/40 bg-card/80 backdrop-blur-sm animate-slide-up">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-2xl font-semibold text-foreground">
+              School Registration
+            </CardTitle>
+            <CardDescription className="text-base">
+              Fill in the details below to add a new school to our database
+            </CardDescription>
+          </CardHeader>
 
-            <div>
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  autoComplete="address"
-                  {...register("address")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.address && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.address.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="city"
-                className="block text-sm font-medium text-gray-700"
-              >
-                City
-              </label>
-              <div className="mt-1">
-                <input
-                  id="city"
-                  name="city"
-                  type="text"
-                  autoComplete="city"
-                  {...register("city")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.city && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.city.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="state"
-                className="block text-sm font-medium text-gray-700"
-              >
-                State
-              </label>
-              <div className="mt-1">
-                <input
-                  id="state"
-                  name="state"
-                  type="text"
-                  autoComplete="state"
-                  {...register("state")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.state && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.state.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="contact"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contact Number
-              </label>
-              <div className="mt-1">
-                <input
-                  id="contact"
-                  name="contact"
-                  type="text"
-                  autoComplete="contact"
-                  {...register("contact")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.contact && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.contact.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="email_id"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email ID
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email_id"
-                  name="email_id"
-                  type="email"
-                  autoComplete="email"
-                  {...register("email_id")}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {errors.email_id && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.email_id.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="image"
-                className="block text-sm font-medium text-gray-700"
-              >
-                School Image
-              </label>
-              <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                <div className="space-y-1 text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-gray-400"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m-4-4v-4m0 0h-4"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                    >
-                      <span>Upload a file</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        {...register("image")}
-                        onChange={handleImageChange} // Add onChange handler
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  {imagePreview && ( // Conditionally render image preview
-                    <div className="mt-4">
-                      <img src={imagePreview} alt="Image Preview" className="max-h-32 mx-auto" />
-                    </div>
+          <CardContent className="px-6 pb-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* School Information Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* School Name */}
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="name">School Name *</Label>
+                  <Input id="name" type="text" placeholder="Enter school name" {...register("name")} />
+                  {errors.name && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.name.message}
+                    </p>
                   )}
-                  <p className="text-xs text-gray-500">PNG, JPG, WEBP up to 5MB</p>
+                </div>
+
+                {/* Address */}
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="address">Address *</Label>
+                  <Input id="address" type="text" placeholder="Enter complete address" {...register("address")} />
+                  {errors.address && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.address.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* City */}
+                <div className="space-y-2">
+                  <Label htmlFor="city">City *</Label>
+                  <Input id="city" type="text" placeholder="Enter city" {...register("city")} />
+                  {errors.city && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.city.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* State */}
+                <div className="space-y-2">
+                  <Label htmlFor="state">State *</Label>
+                  <Input id="state" type="text" placeholder="Enter state" {...register("state")} />
+                  {errors.state && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.state.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Contact */}
+                <div className="space-y-2">
+                  <Label htmlFor="contact">Contact Number *</Label>
+                  <Input id="contact" type="tel" placeholder="1234567890" {...register("contact")} />
+                  {errors.contact && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.contact.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="space-y-2">
+                  <Label htmlFor="email_id">Email Address *</Label>
+                  <Input id="email_id" type="email" placeholder="school@example.com" {...register("email_id")} />
+                  {errors.email_id && (
+                    <p className="flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="w-4 h-4" /> {errors.email_id.message}
+                    </p>
+                  )}
                 </div>
               </div>
-              {errors.image && (
-                <p className="mt-2 text-sm text-red-600">
-                  {errors.image.message}
-                </p>
-              )}
-            </div>
 
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Add School
-              </button>
-            </div>
-          </form>
-          {message && (
-            <p className="mt-4 text-center text-sm font-medium text-gray-700">
-              {message}
-            </p>
-          )}
-        </div>
+              {/* Image Upload Section */}
+              <div className="space-y-2">
+                <Label>School Image *</Label>
+                <div className="relative">
+                  <div className="border-2 border-dashed rounded-xl p-8 text-center bg-muted/20 hover:bg-muted/30 transition-colors duration-200 group">
+                    <input
+                      type="file"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      accept="image/jpeg,image/png,image/webp"
+                      {...register("image")}
+                      onChange={handleImageChange}
+                    />
+
+                    {imagePreview ? (
+                      <div className="space-y-4">
+                        <div className="relative inline-block">
+                          <img src={imagePreview} alt="Preview" className="max-h-32 rounded-lg object-cover" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg">
+                            <Upload className="w-6 h-6 text-white" />
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground">Click to change image</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full">
+                          <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                        </div>
+                        <p className="text-lg font-medium">Upload School Image</p>
+                        <p className="text-sm text-muted-foreground">PNG, JPG, WEBP • Max 5MB</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                {errors.image && (
+                  <p className="flex items-center gap-2 text-destructive text-sm">
+                    <AlertCircle className="w-4 h-4" /> {errors.image.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <Button type="submit" disabled={isSubmitting} className="w-full h-14 text-lg font-semibold">
+                {isSubmitting ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
+                    Adding School...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" /> Add School
+                  </div>
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
