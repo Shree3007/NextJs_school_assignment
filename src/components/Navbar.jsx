@@ -1,8 +1,16 @@
-import Link from "next/link";
-import { Button } from '@/components/ui/button';
-import { GraduationCap, Plus, List } from 'lucide-react';
+"use client";
 
-const Navigation = () => {
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, X, GraduationCap, Plus, List } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -10,32 +18,53 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-education-primary" />
-            <span className="text-xl font-bold bg-gradient-to-r from-education-primary to-education-secondary bg-clip-text">
+            <span className="text-xl font-bold bg-gradient-to-r from-education-primary to-education-secondary bg-clip-text text-transparent">
               SchoolHub
             </span>
           </Link>
-          <div className="flex space-x-4">
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-4">
             <Link href="/showSchools">
-              <Button 
-                className="flex items-center space-x-2"
+              <Button
+                className="cursor-pointer flex items-center space-x-2"
               >
                 <List className="h-4 w-4" />
                 <span>View Schools</span>
               </Button>
             </Link>
             <Link href="/addSchool">
-              <Button 
-                className="flex items-center space-x-2"
+              <Button
+                className="cursor-pointer flex items-center space-x-2"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add School</span>
               </Button>
             </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="text-gray-900 focus:outline-none">
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu (conditionally rendered) */}
+      {isOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 shadow-lg pb-4 animate-fade-in-down">
+          <div className="flex flex-col items-center space-y-4 mt-4">
+            <Link href="/showSchools">
+              <p onClick={toggleMenu} className="text-gray-700 hover:text-gray-900 transition-colors duration-200 text-lg py-2">View Schools</p>
+            </Link>
+            <Link href="/addSchool">
+              <p onClick={toggleMenu} className="text-gray-700 hover:text-gray-900 transition-colors duration-200 text-lg py-2">Add School</p>
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
-};
-
-export default Navigation;
+}

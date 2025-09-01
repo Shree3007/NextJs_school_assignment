@@ -86,7 +86,7 @@ export default function SchoolForm() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 animate-fade-in">
+    <div className="bg-blue-100 min-h-screen p-4 md:p-8 animate-fade-in">
       <div className="mx-auto max-w-2xl">
 
         {/* Form Card */}

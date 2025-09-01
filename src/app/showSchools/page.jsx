@@ -44,15 +44,15 @@ export default function ShowSchoolsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
+    <div className="min-h-screen bg-blue-100 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-8">
-          Our Schools
+          Discover Schools
         </h2>
         {schools.length === 0 ? (
           <p className="text-center text-gray-600">No schools found.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {schools.map((school) => (
               <SchoolCard key={school.id} school={school} />
             ))}

@@ -20,21 +20,21 @@ const Index = () => {
         </div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-5xl text-gray-900 md:text-6xl font-bold mb-6 leading-tight">
             Welcome to <span className="text-education-accent">SchoolHub</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-900 md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
             Your comprehensive platform for managing and discovering Schools
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/showSchools">
-              <Button size="lg" className="w-full sm:w-auto">
+              <Button size="lg" className=" cursor-pointer w-full hover:bg-white hover:text-gray-900 sm:w-auto">
                 <List className="h-5 w-5 mr-2" />
                 Browse Schools
               </Button>
             </Link>
             <Link href="/addSchool">
-              <Button size="lg" className="w-full sm:w-auto bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+              <Button size="lg" className=" cursor-pointer w-full bg-white text-gray-900 hover:bg-black hover:text-white sm:w-auto backdrop-blur-sm">
                 <Plus className="h-5 w-5 mr-2" />
                 Add School
               </Button>
@@ -62,7 +62,7 @@ const Index = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Easy Management</h3>
               <p className="text-gray-600">
-                Add and manage school information with our intuitive form system
+                Add and manage school information
               </p>
             </div>
             
@@ -72,7 +72,7 @@ const Index = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Comprehensive Directory</h3>
               <p className="text-gray-600">
-                Browse through a beautiful catalog of educational institutions
+                Browse through a beautiful catalog of schools
               </p>
             </div>
             
