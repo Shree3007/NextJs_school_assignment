@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db"; // Corrected import path
+import { query } from "@/lib/db";
 import path from "path";
 import { writeFile, mkdir } from "fs/promises";
 
@@ -21,7 +21,7 @@ export async function POST(req) {
     const buffer = Buffer.from(await image.arrayBuffer());
     const uploadDir = path.join(process.cwd(), "public", "schoolImages");
 
-    // Ensure the directory exists
+   
     await mkdir(uploadDir, { recursive: true });
 
     const filename = `${Date.now()}-${image.name}`;

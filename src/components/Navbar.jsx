@@ -18,12 +18,11 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-education-primary" />
-            <span className="text-xl font-bold bg-gradient-to-r from-education-primary to-education-secondary bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-clip-text">
               SchoolHub
             </span>
           </Link>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4">
             <Link href="/showSchools">
               <Button
@@ -43,7 +42,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button onClick={toggleMenu} className="text-gray-900 focus:outline-none">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -52,7 +50,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu (conditionally rendered) */}
       {isOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 shadow-lg pb-4 animate-fade-in-down">
           <div className="flex flex-col items-center space-y-4 mt-4">

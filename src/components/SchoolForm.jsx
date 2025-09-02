@@ -76,7 +76,7 @@ export default function SchoolForm() {
       if (response.ok) {
         reset();
         setImagePreview(null);
-        router.push("/showSchools"); // Redirect to schools page
+        router.push("/showSchools");
       } else {
         console.error("Error submitting form");
       }
@@ -89,7 +89,6 @@ export default function SchoolForm() {
     <div className="bg-blue-100 min-h-screen p-4 md:p-8 animate-fade-in">
       <div className="mx-auto max-w-2xl">
 
-        {/* Form Card */}
         <Card className="border rounded-2xl shadow-2xl shadow-gray-500/40 bg-card/80 backdrop-blur-sm animate-slide-up">
           <CardHeader className="text-center pb-6">
             <CardTitle className="text-2xl font-semibold text-foreground">
@@ -102,9 +101,7 @@ export default function SchoolForm() {
 
           <CardContent className="px-6 pb-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* School Information Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* School Name */}
                 <div className="space-y-2 md:col-span-2">
                   <Label htmlFor="name">School Name *</Label>
                   <Input id="name" type="text" placeholder="Enter school name" {...register("name")} />
@@ -115,7 +112,6 @@ export default function SchoolForm() {
                   )}
                 </div>
 
-                {/* Address */}
                 <div className="space-y-2 md:col-span-2">
                   <Label htmlFor="address">Address *</Label>
                   <Input id="address" type="text" placeholder="Enter complete address" {...register("address")} />
@@ -126,7 +122,6 @@ export default function SchoolForm() {
                   )}
                 </div>
 
-                {/* City */}
                 <div className="space-y-2">
                   <Label htmlFor="city">City *</Label>
                   <Input id="city" type="text" placeholder="Enter city" {...register("city")} />
@@ -137,7 +132,6 @@ export default function SchoolForm() {
                   )}
                 </div>
 
-                {/* State */}
                 <div className="space-y-2">
                   <Label htmlFor="state">State *</Label>
                   <Input id="state" type="text" placeholder="Enter state" {...register("state")} />
@@ -148,7 +142,6 @@ export default function SchoolForm() {
                   )}
                 </div>
 
-                {/* Contact */}
                 <div className="space-y-2">
                   <Label htmlFor="contact">Contact Number *</Label>
                   <Input id="contact" type="tel" placeholder="1234567890" {...register("contact")} />
@@ -159,7 +152,7 @@ export default function SchoolForm() {
                   )}
                 </div>
 
-                {/* Email */}
+
                 <div className="space-y-2">
                   <Label htmlFor="email_id">Email Address *</Label>
                   <Input id="email_id" type="email" placeholder="school@example.com" {...register("email_id")} />
@@ -171,7 +164,6 @@ export default function SchoolForm() {
                 </div>
               </div>
 
-              {/* Image Upload Section */}
               <div className="space-y-2">
                 <Label>School Image *</Label>
                 <div className="relative">
@@ -212,7 +204,6 @@ export default function SchoolForm() {
                 )}
               </div>
 
-              {/* Submit Button */}
               <Button type="submit" disabled={isSubmitting} className="w-full h-14 text-lg font-semibold">
                 {isSubmitting ? (
                   <div className="flex items-center gap-2">

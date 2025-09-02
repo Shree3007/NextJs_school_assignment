@@ -6,7 +6,6 @@ import { MapPin, GraduationCap } from "lucide-react";
 export default function SchoolCard({ school }) {
   return (
     <Card className="max-w-sm overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 shadow-lg bg-white rounded-2xl m-4">
-      {/* School image */}
       <div className="relative h-48 overflow-hidden">
         <Image
           src={school.image}
@@ -23,7 +22,6 @@ export default function SchoolCard({ school }) {
         </div>
       </div>
 
-      {/* Card Content */}
       <CardContent className="p-4">
         <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
           {school.name}
